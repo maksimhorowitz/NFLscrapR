@@ -376,7 +376,7 @@ season_player_game <- function(Season) {
   
   game.ids <- extracting_gameids(Season)
   
-  playergame.season.unformatted <- lapply(game.ids, FUN = playergame)
+  playergame.season.unformatted <- lapply(game.ids, FUN = player_game)
   
   # Rowbinding all the games from the specified season
   
@@ -406,7 +406,7 @@ agg_player_season <- function(Season) {
   
   # Use the season_playergame function to generate a dataset with all the games
   # in a given season which we will aggregate over
-  playerdata.year <- season_playergame(Season)
+  playerdata.year <- season_player_game(Season)
   
   # Use dplyr to aggregate
   # Here we use the sum function for cumulative yards
