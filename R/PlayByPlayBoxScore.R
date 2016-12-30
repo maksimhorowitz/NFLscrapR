@@ -755,7 +755,7 @@ game_play_by_play <- function(GameID) {
   
   rusherStep1 <- sapply(PBP[which(PBP$PlayType == "Run"),"desc"], 
                         stringr::str_extract, 
-                        pattern = "[A-Z]\\.[A-Z][A-z]{1,20}")
+                        pattern = "[A-z]{1,3}\\.[A-Z][A-z]{1,20}")
   PBP[c(running.play, running.play2),"Rusher"] <- rusherStep1
   
   # Changing to correctly reflect the rusher 
