@@ -13,9 +13,10 @@
 #' @param GameID (character or numeric) A 10 digit game ID associated with a 
 #' given NFL game.
 #' @details Through list manipulation using the do.call and rbind functions
-#'  a 13 column dataframe with basic information populates directly from the NFL 
+#'  a 14 column dataframe with basic information populates directly from the NFL 
 #'  JSON API.  These columns include the following:
 #' \itemize{
+#'  \item{"play_id"} - Play ID
 #'  \item{"Drive"} - Drive number
 #'  \item{"sp"} - Whether the play resulted in a score (any kind of score)
 #'  \item{"qtr"} - Quarter of Game
@@ -230,14 +231,22 @@ game_play_by_play <- function(GameID) {
   
   if (GameID == 2013092206){
     PBP <- lapply(c(1,2,4:number.drives),
-                  function(x) cbind("Drive"=x,data.frame(do.call(rbind,nfl.json[[1]]$drives[[x]]$plays))[,c(1:9)])) %>%
+                  function(x) cbind("play_id"=as.integer(names(nfl.json[[1]]$drives[[x]]$plays)),
+                                    "Drive"=x,
+                                    data.frame(do.call(rbind,nfl.json[[1]]$drives[[x]]$plays))[,c(1:9)])) %>%
       dplyr::bind_rows()
   } else {
     PBP <- lapply(c(1:number.drives),
-                  function(x) cbind("Drive"=x,data.frame(do.call(rbind,nfl.json[[1]]$drives[[x]]$plays))[,c(1:9)])) %>%
+                  function(x) cbind("play_id"=as.integer(names(nfl.json[[1]]$drives[[x]]$plays)),
+                                    "Drive"=x,
+                                    data.frame(do.call(rbind,nfl.json[[1]]$drives[[x]]$plays))[,c(1:9)])) %>%
       dplyr::bind_rows()
   }
   
+  if(GameID == 2009092010){
+    PBP <- PBP[PBP$play_id != 1919, ]  # injury, not a play
+  }
+
   # Search through the 'players' lists for each play (the 'plays' list within
   # each drive) to find the air yards, yards after catch, and if the QB was hit
   
