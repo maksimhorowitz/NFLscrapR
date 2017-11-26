@@ -391,7 +391,7 @@ player_game <- function(GameID) {
 #' library(ggplot2)
 #' ggplot(playerstats.2010, aes(x = PlayType)) + geom_bar()
 #' @export
-season_player_game <- function(Season, Weeks = 16) {
+season_player_game <- function(Season, Weeks = 17) {
   
   game_ids <- extracting_gameids(Season, Weeks)
   
