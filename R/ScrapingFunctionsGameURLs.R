@@ -10,6 +10,8 @@
 #' The outputs of extracting_gameids is used in conjunction with Proper.PBP.URL.Formatting
 #' to create the URLs for each NFL game in a specified season
 #' @param Season (numeric) A numeric 4-digit year associated with an NFL season
+#' @param LastWeek (numeric) A numeric 2-digit number associated with the week of an NFL 
+#' season
 #' @param playoffs (boolean) TRUE if you want the playoffs gameIDs for the specified 
 #' season.  FALSE (default) if you want the game IDs from the regular season
 #' @return A vector of NFL GameIDs from the specified season
@@ -17,7 +19,7 @@
 #' # Scraping all game IDs from 2010 Season
 #' extracting_gameids(2010) 
 #' @export
-extracting_gameids <- function(Season, playoffs = FALSE) {
+extracting_gameids <- function(Season, LastWeek = 17, playoffs = FALSE) {
   
   # Setting up to Pull Regular Season Weeks
   
@@ -27,7 +29,7 @@ extracting_gameids <- function(Season, playoffs = FALSE) {
                           "REG", sep = "/")
   
   # This Runs through the Week of the season and adds it as part of the URL
-  url.schedule.weeks <- sapply(1:17, FUN = function(x) {
+  url.schedule.weeks <- sapply(1:LastWeek, FUN = function(x) {
                                                       paste(url.year.sched, 
                                                             x, 
                                                             sep = "" )
