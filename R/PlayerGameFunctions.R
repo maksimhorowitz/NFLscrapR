@@ -393,13 +393,7 @@ player_game <- function(GameID) {
 #' @export
 season_player_game <- function(Season, Weeks = 16) {
   
-  game_ids <- extracting_gameids(Season)
-  
-  if (Weeks %in% 3:15) {
-    game_ids <- game_ids[1:(16*Weeks)-1]
-  } else if (Weeks %in% 1:2) {
-    game_ids <- game_ids[1:(16*Weeks)]
-  }
+  game_ids <- extracting_gameids(Season, Weeks)
   
   playergame.season.unformatted <- lapply(game_ids, FUN = player_game)
   
