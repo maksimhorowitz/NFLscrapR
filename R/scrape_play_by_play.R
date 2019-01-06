@@ -2383,7 +2383,7 @@ scrape_json_play_by_play <- function(game_id, check_url = 1) {
                                                           quarter_seconds_remaining),
                   # Add column for replay or challenge:
                   replay_or_challenge = stringr::str_detect(desc, 
-                                                            "(Replay Official reviewed)|( challenge )") %>%
+                                                            "(Replay Official reviewed)|( challenged )") %>%
                     as.numeric(),
                   # Result of replay or challenge:
                   replay_or_challenge_result = dplyr::if_else(replay_or_challenge == 1,
