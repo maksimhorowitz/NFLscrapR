@@ -2805,7 +2805,9 @@ scrape_json_play_by_play <- function(game_id, check_url = 1) {
 #'                                       season = 2017)
 #' @export
 
-scrape_season_play_by_play <- function(season, type = "reg", weeks = NULL, teams = NULL) {
+scrape_season_play_by_play <- function(season, type = "reg", weeks = NULL, teams = NULL, furrr = FALSE) {
+  
+  if(furrr == TRUE){future::plan(future::multiprocess)}
   
   # Gather the game ids based on the inputs:
   game_ids <- scrape_game_ids(season, type, weeks, teams) %>%
@@ -2814,7 +2816,7 @@ scrape_season_play_by_play <- function(season, type = "reg", weeks = NULL, teams
     dplyr::pull(game_id)
   
   # Go through each game and check if the URL exists:
-  game_ids_check <- purrr::map_lgl(game_ids,
+  game_ids_check <- furrr::future_map_lgl(game_ids,
                                    function(x) {
                                      game_url <- create_game_json_url(x)
                                      RCurl::url.exists(game_url)
@@ -2825,7 +2827,7 @@ scrape_season_play_by_play <- function(season, type = "reg", weeks = NULL, teams
                           msg = "There are no games available for your inputs!")
   
   # Scrape each game's play-by-play and return:
-  purrr::map_dfr(game_ids[game_ids_check], 
+  furrr::future_map_dfr(game_ids[game_ids_check], 
                  function(x) {
                    scrape_game_play_by_play(game_id = x, type, season,
                                             check_url = 0)

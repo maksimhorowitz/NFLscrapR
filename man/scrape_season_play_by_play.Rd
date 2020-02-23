@@ -4,8 +4,13 @@
 \alias{scrape_season_play_by_play}
 \title{Scrape season play-by-play for a given NFL season (either pre, regular, or post-season)}
 \usage{
-scrape_season_play_by_play(season, type = "reg", weeks = NULL,
-  teams = NULL)
+scrape_season_play_by_play(
+  season,
+  type = "reg",
+  weeks = NULL,
+  teams = NULL,
+  furrr = FALSE
+)
 }
 \arguments{
 \item{season}{Numeric 4-digit year associated with an NFL season}
